@@ -92,9 +92,9 @@ const Finances = () => {
   const filteredTransactions = transactions
     .filter(transaction => {
       const matchesSearch = 
-        transaction.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        transaction.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        getFarmName(transaction.farmId).toLowerCase().includes(searchTerm.toLowerCase())
+transaction.description_c?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        transaction.category_c?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        getFarmName(transaction.farm_id_c).toLowerCase().includes(searchTerm.toLowerCase())
       
       let matchesType = true
       if (typeFilter === 'income') {
