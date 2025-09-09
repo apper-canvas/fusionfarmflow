@@ -73,9 +73,9 @@ const Farms = () => {
     setEditingFarm(null)
   }
 
-  const filteredFarms = farms.filter(farm =>
-    farm.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    farm.location.toLowerCase().includes(searchTerm.toLowerCase())
+const filteredFarms = farms.filter(farm =>
+    (farm.name?.toLowerCase() ?? '').includes(searchTerm.toLowerCase()) ||
+    (farm.location?.toLowerCase() ?? '').includes(searchTerm.toLowerCase())
   )
 
   if (loading) return <Loading />
