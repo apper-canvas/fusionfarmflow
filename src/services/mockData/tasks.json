@@ -1,0 +1,79 @@
+[
+  {
+    "Id": 1,
+    "farmId": 1,
+    "cropId": 1,
+    "title": "Water corn field",
+    "description": "Deep watering session for the corn crop in the north field",
+    "dueDate": "2024-12-20T09:00:00Z",
+    "priority": "high",
+    "completed": false,
+    "completedAt": null
+  },
+  {
+    "Id": 2,
+    "farmId": 1,
+    "cropId": 2,
+    "title": "Apply fertilizer to tomatoes",
+    "description": "Second fertilizer application using organic compost blend",
+    "dueDate": "2024-12-22T07:30:00Z",
+    "priority": "medium",
+    "completed": false,
+    "completedAt": null
+  },
+  {
+    "Id": 3,
+    "farmId": 2,
+    "cropId": 3,
+    "title": "Harvest wheat crop",
+    "description": "Begin harvesting the winter wheat in the main field",
+    "dueDate": "2024-12-18T06:00:00Z",
+    "priority": "high",
+    "completed": true,
+    "completedAt": "2024-12-18T08:30:00Z"
+  },
+  {
+    "Id": 4,
+    "farmId": 3,
+    "cropId": 4,
+    "title": "Check soybean growth",
+    "description": "Weekly inspection of soybean plants for pests and diseases",
+    "dueDate": "2024-12-21T10:00:00Z",
+    "priority": "low",
+    "completed": false,
+    "completedAt": null
+  },
+  {
+    "Id": 5,
+    "farmId": 1,
+    "cropId": 1,
+    "title": "Weed control",
+    "description": "Manual weeding around corn plants to reduce competition",
+    "dueDate": "2024-12-15T08:00:00Z",
+    "priority": "medium",
+    "completed": false,
+    "completedAt": null
+  },
+  {
+    "Id": 6,
+    "farmId": 4,
+    "cropId": 6,
+    "title": "Apply fungicide to barley",
+    "description": "Preventive fungicide application to protect against rust",
+    "dueDate": "2024-12-25T11:00:00Z",
+    "priority": "medium",
+    "completed": false,
+    "completedAt": null
+  },
+  {
+    "Id": 7,
+    "farmId": 2,
+    "cropId": 5,
+    "title": "Sell potato harvest",
+    "description": "Coordinate with buyer for potato delivery and payment",
+    "dueDate": "2024-12-19T14:00:00Z",
+    "priority": "high",
+    "completed": true,
+    "completedAt": "2024-12-19T16:45:00Z"
+  }
+]

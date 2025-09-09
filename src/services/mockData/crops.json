@@ -1,0 +1,68 @@
+[
+  {
+    "Id": 1,
+    "farmId": 1,
+    "name": "Corn",
+    "variety": "Sweet Corn",
+    "plantedDate": "2024-04-15T00:00:00Z",
+    "expectedHarvest": "2024-08-20T00:00:00Z",
+    "status": "growing",
+    "area": 45.5,
+    "notes": "First planting of the season. Soil conditions are excellent."
+  },
+  {
+    "Id": 2,
+    "farmId": 1,
+    "name": "Tomatoes",
+    "variety": "Roma Tomatoes",
+    "plantedDate": "2024-05-01T00:00:00Z",
+    "expectedHarvest": "2024-09-15T00:00:00Z",
+    "status": "growing",
+    "area": 25.0,
+    "notes": "Using drip irrigation system for optimal water management."
+  },
+  {
+    "Id": 3,
+    "farmId": 2,
+    "name": "Wheat",
+    "variety": "Winter Wheat",
+    "plantedDate": "2024-03-20T00:00:00Z",
+    "expectedHarvest": "2024-07-30T00:00:00Z",
+    "status": "ready",
+    "area": 60.0,
+    "notes": "Weather conditions have been favorable for growth."
+  },
+  {
+    "Id": 4,
+    "farmId": 3,
+    "name": "Soybeans",
+    "variety": "Roundup Ready",
+    "plantedDate": "2024-05-10T00:00:00Z",
+    "expectedHarvest": "2024-10-05T00:00:00Z",
+    "status": "planted",
+    "area": 120.0,
+    "notes": "Large field planting with precision agriculture techniques."
+  },
+  {
+    "Id": 5,
+    "farmId": 2,
+    "name": "Potatoes",
+    "variety": "Russet Burbank",
+    "plantedDate": "2024-04-05T00:00:00Z",
+    "expectedHarvest": "2024-08-10T00:00:00Z",
+    "status": "harvested",
+    "area": 27.2,
+    "notes": "Excellent harvest yield this season."
+  },
+  {
+    "Id": 6,
+    "farmId": 4,
+    "name": "Barley",
+    "variety": "Malting Barley",
+    "plantedDate": "2024-04-25T00:00:00Z",
+    "expectedHarvest": "2024-08-25T00:00:00Z",
+    "status": "growing",
+    "area": 85.5,
+    "notes": "Contracted with local brewery for entire harvest."
+  }
+]
