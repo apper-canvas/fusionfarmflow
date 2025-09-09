@@ -39,31 +39,31 @@ setFormData({
         due_date_c: format(new Date(task.due_date_c), 'yyyy-MM-dd'),
         priority_c: task.priority_c
       })
-    } else {
+} else {
       setFormData({
-        farmId: '',
-        cropId: '',
-        title: '',
-        description: '',
-        dueDate: '',
-        priority: 'medium'
+        farm_id_c: '',
+        crop_id_c: '',
+        title_c: '',
+        description_c: '',
+        due_date_c: '',
+        priority_c: 'medium'
       })
     }
     setErrors({})
   }, [task, isOpen])
 
   useEffect(() => {
-    if (formData.farmId) {
+if (formData.farm_id_c) {
 const farmCrops = allCrops.filter(crop => crop.farm_id_c === parseInt(formData.farm_id_c))
       setCrops(farmCrops)
-      if (!farmCrops.find(crop => crop.Id === parseInt(formData.cropId))) {
-        setFormData(prev => ({ ...prev, cropId: '' }))
+      if (!farmCrops.find(crop => crop.Id === parseInt(formData.crop_id_c))) {
+        setFormData(prev => ({ ...prev, crop_id_c: '' }))
       }
     } else {
       setCrops([])
-      setFormData(prev => ({ ...prev, cropId: '' }))
+      setFormData(prev => ({ ...prev, crop_id_c: '' }))
     }
-  }, [formData.farmId, allCrops])
+  }, [formData.farm_id_c, allCrops])
 
   const loadFarms = async () => {
     try {
@@ -85,10 +85,10 @@ const farmCrops = allCrops.filter(crop => crop.farm_id_c === parseInt(formData.f
 
   const validate = () => {
     const newErrors = {}
-    if (!formData.farmId) newErrors.farmId = 'Farm selection is required'
-    if (!formData.cropId) newErrors.cropId = 'Crop selection is required'
-    if (!formData.title.trim()) newErrors.title = 'Task title is required'
-    if (!formData.dueDate) newErrors.dueDate = 'Due date is required'
+if (!formData.farm_id_c) newErrors.farm_id_c = 'Farm selection is required'
+    if (!formData.crop_id_c) newErrors.crop_id_c = 'Crop selection is required'
+    if (!formData.title_c.trim()) newErrors.title_c = 'Task title is required'
+    if (!formData.due_date_c) newErrors.due_date_c = 'Due date is required'
     return newErrors
   }
 
@@ -146,8 +146,8 @@ const farmCrops = allCrops.filter(crop => crop.farm_id_c === parseInt(formData.f
               <Label htmlFor="farmId">Farm *</Label>
               <select
                 id="farmId"
-                value={formData.farmId}
-                onChange={(e) => handleChange('farmId', e.target.value)}
+value={formData.farm_id_c}
+                onChange={(e) => handleChange('farm_id_c', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
                 <option value="">Select a farm</option>
@@ -155,15 +155,15 @@ const farmCrops = allCrops.filter(crop => crop.farm_id_c === parseInt(formData.f
 <option key={farm.Id} value={farm.Id}>{farm.name_c}</option>
                 ))}
               </select>
-              {errors.farmId && <p className="text-sm text-error mt-1">{errors.farmId}</p>}
+{errors.farm_id_c && <p className="text-sm text-error mt-1">{errors.farm_id_c}</p>}
             </div>
             <div>
               <Label htmlFor="cropId">Crop *</Label>
               <select
                 id="cropId"
-                value={formData.cropId}
-                onChange={(e) => handleChange('cropId', e.target.value)}
-                disabled={!formData.farmId}
+value={formData.crop_id_c}
+                onChange={(e) => handleChange('crop_id_c', e.target.value)}
+                disabled={!formData.farm_id_c}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:bg-gray-100"
               >
                 <option value="">Select a crop</option>
@@ -171,7 +171,7 @@ const farmCrops = allCrops.filter(crop => crop.farm_id_c === parseInt(formData.f
 <option key={crop.Id} value={crop.Id}>{crop.name_c} ({crop.variety_c})</option>
                 ))}
               </select>
-              {errors.cropId && <p className="text-sm text-error mt-1">{errors.cropId}</p>}
+{errors.crop_id_c && <p className="text-sm text-error mt-1">{errors.crop_id_c}</p>}
             </div>
           </div>
 
@@ -179,18 +179,18 @@ const farmCrops = allCrops.filter(crop => crop.farm_id_c === parseInt(formData.f
             <Label htmlFor="title">Task Title *</Label>
             <Input
               id="title"
-              value={formData.title}
+value={formData.title_c}
 onChange={(e) => handleChange('title_c', e.target.value)}
               placeholder="e.g., Water crops, Apply fertilizer, Harvest"
             />
-            {errors.title && <p className="text-sm text-error mt-1">{errors.title}</p>}
+{errors.title_c && <p className="text-sm text-error mt-1">{errors.title_c}</p>}
           </div>
 
           <div>
             <Label htmlFor="description">Description</Label>
             <textarea
               id="description"
-              value={formData.description}
+value={formData.description_c}
 onChange={(e) => handleChange('description_c', e.target.value)}
               placeholder="Additional details about this task..."
               rows={3}
@@ -204,16 +204,16 @@ onChange={(e) => handleChange('description_c', e.target.value)}
               <Input
                 id="dueDate"
                 type="date"
-                value={formData.dueDate}
+value={formData.due_date_c}
 onChange={(e) => handleChange('due_date_c', e.target.value)}
               />
-              {errors.dueDate && <p className="text-sm text-error mt-1">{errors.dueDate}</p>}
+{errors.due_date_c && <p className="text-sm text-error mt-1">{errors.due_date_c}</p>}
             </div>
             <div>
               <Label htmlFor="priority">Priority</Label>
               <select
                 id="priority"
-                value={formData.priority}
+value={formData.priority_c}
 onChange={(e) => handleChange('priority_c', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
