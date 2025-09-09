@@ -12,6 +12,14 @@ const isIncome = transaction.type_c === 'income'
     return type === 'income' ? 'TrendingUp' : 'TrendingDown'
   }
 
+  const getCommentTypeIcon = (commentType) => {
+    return commentType === 'mentor' ? 'User' : 'UserCheck'
+  }
+
+  const getCommentTypeBadgeVariant = (commentType) => {
+    return commentType === 'mentor' ? 'info' : 'secondary'
+  }
+
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -41,9 +49,17 @@ const isIncome = transaction.type_c === 'income'
           <p className={`text-xl font-bold ${isIncome ? 'text-success' : 'text-error'}`}>
 {isIncome ? '+' : '-'}{formatCurrency(Math.abs(transaction.amount_c))}
           </p>
-          <Badge variant={isIncome ? 'success' : 'error'}>
+          <div className="flex gap-1 justify-end mt-1">
+            <Badge variant={isIncome ? 'success' : 'error'}>
 {transaction.type_c}
-          </Badge>
+            </Badge>
+            {transaction.comment_type_c && (
+              <Badge variant={getCommentTypeBadgeVariant(transaction.comment_type_c)}>
+                <ApperIcon name={getCommentTypeIcon(transaction.comment_type_c)} size={12} className="mr-1" />
+                {transaction.comment_type_c}
+              </Badge>
+            )}
+          </div>
         </div>
       </div>
       
@@ -56,6 +72,15 @@ const isIncome = transaction.type_c === 'income'
           <span className="text-gray-600">Date</span>
 <span className="font-medium">{transaction.date_c ? format(new Date(transaction.date_c), 'MMM dd, yyyy') : 'No date'}</span>
         </div>
+        {transaction.comment_type_c && (
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-gray-600">Comment Type</span>
+            <div className="flex items-center">
+              <ApperIcon name={getCommentTypeIcon(transaction.comment_type_c)} size={14} className="mr-1 text-gray-500" />
+              <span className="font-medium capitalize">{transaction.comment_type_c}</span>
+            </div>
+          </div>
+        )}
       </div>
       
       <div className="flex space-x-2">

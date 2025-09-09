@@ -13,7 +13,8 @@ farm_id_c: '',
     category_c: '',
     amount_c: '',
     description_c: '',
-    date_c: format(new Date(), 'yyyy-MM-dd')
+    date_c: format(new Date(), 'yyyy-MM-dd'),
+    comment_type_c: 'farmer'
   })
   const [farms, setFarms] = useState([])
   const [errors, setErrors] = useState({})
@@ -55,7 +56,8 @@ farm_id_c: transaction.farm_id_c,
         category_c: transaction.category_c,
         amount_c: Math.abs(transaction.amount_c).toString(),
         description_c: transaction.description_c,
-        date_c: transaction.date_c ? format(new Date(transaction.date_c), 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd')
+        date_c: transaction.date_c ? format(new Date(transaction.date_c), 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd'),
+        comment_type_c: transaction.comment_type_c || 'farmer'
       })
     } else {
 setFormData({
@@ -64,7 +66,8 @@ setFormData({
         category_c: '',
         amount_c: '',
         description_c: '',
-        date_c: format(new Date(), 'yyyy-MM-dd')
+        date_c: format(new Date(), 'yyyy-MM-dd'),
+        comment_type_c: 'farmer'
       })
     }
     setErrors({})
@@ -82,6 +85,7 @@ setFormData({
   const validate = () => {
     const newErrors = {}
 if (!formData.farm_id_c) newErrors.farm_id_c = 'Farm selection is required'
+    if (!formData.comment_type_c) newErrors.comment_type_c = 'Comment type is required'
     if (!formData.category_c) newErrors.category_c = 'Category is required'
     if (!formData.amount_c.trim()) newErrors.amount_c = 'Amount is required'
     if (isNaN(formData.amount_c) || parseFloat(formData.amount_c) <= 0) {
@@ -106,7 +110,8 @@ if (!formData.farm_id_c) newErrors.farm_id_c = 'Farm selection is required'
 ...formData,
         farm_id_c: parseInt(formData.farm_id_c),
         amount_c: formData.type_c === 'income' ? parseFloat(formData.amount_c) : -parseFloat(formData.amount_c),
-        date_c: formData.date_c
+        date_c: formData.date_c,
+        comment_type_c: formData.comment_type_c
       }
       await onSave(transactionData)
       onClose()
@@ -235,6 +240,24 @@ value={formData.description_c}
               placeholder="Brief description of the transaction"
             />
 {errors.description_c && <p className="text-sm text-error mt-1">{errors.description_c}</p>}
+<div>
+              <Label htmlFor="comment_type_c" required>Comment Type</Label>
+              <select
+                id="comment_type_c"
+                value={formData.comment_type_c}
+                onChange={(e) => handleChange('comment_type_c', e.target.value)}
+                className={`w-full px-3 py-2 border rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
+                  errors.comment_type_c ? 'border-error' : 'border-gray-300'
+                }`}
+              >
+                <option value="">Select comment type</option>
+                <option value="farmer">Farmer</option>
+                <option value="mentor">Mentor</option>
+              </select>
+              {errors.comment_type_c && (
+                <p className="text-error text-sm mt-1">{errors.comment_type_c}</p>
+              )}
+            </div>
           </div>
 
           {errors.submit && (

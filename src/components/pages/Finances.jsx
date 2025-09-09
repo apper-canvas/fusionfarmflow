@@ -22,6 +22,7 @@ const Finances = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [typeFilter, setTypeFilter] = useState('all')
   const [farmFilter, setFarmFilter] = useState('all')
+  const [commentTypeFilter, setCommentTypeFilter] = useState('all')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingTransaction, setEditingTransaction] = useState(null)
 
@@ -86,7 +87,7 @@ const Finances = () => {
 
   const getFarmName = (farmId) => {
     const farm = farms.find(f => f.Id === farmId)
-    return farm ? farm.name : 'Unknown Farm'
+    return farm ? farm.name || farm.name_c : 'Unknown Farm'
   }
 
   const filteredTransactions = transactions
@@ -94,18 +95,21 @@ const Finances = () => {
       const matchesSearch = 
 transaction.description_c?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         transaction.category_c?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        transaction.comment_type_c?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         getFarmName(transaction.farm_id_c).toLowerCase().includes(searchTerm.toLowerCase())
       
       let matchesType = true
       if (typeFilter === 'income') {
-        matchesType = transaction.amount > 0
+        matchesType = transaction.type_c === 'income' || transaction.amount_c > 0
       } else if (typeFilter === 'expense') {
-        matchesType = transaction.amount < 0
+        matchesType = transaction.type_c === 'expense' || transaction.amount_c < 0
       }
       
-      const matchesFarm = farmFilter === 'all' || transaction.farmId === parseInt(farmFilter)
+      const matchesFarm = farmFilter === 'all' || transaction.farm_id_c === parseInt(farmFilter)
       
-      return matchesSearch && matchesType && matchesFarm
+      const matchesCommentType = commentTypeFilter === 'all' || transaction.comment_type_c === commentTypeFilter
+      
+      return matchesSearch && matchesType && matchesFarm && matchesCommentType
     })
 .sort((a, b) => {
       const dateA = a.date_c ? new Date(a.date_c) : new Date(0)
@@ -115,12 +119,12 @@ transaction.description_c?.toLowerCase().includes(searchTerm.toLowerCase()) ||
 
   // Calculate financial statistics
   const totalIncome = transactions
-    .filter(t => t.amount > 0)
-    .reduce((sum, t) => sum + t.amount, 0)
+    .filter(t => t.type_c === 'income' || t.amount_c > 0)
+    .reduce((sum, t) => sum + Math.abs(t.amount_c || 0), 0)
 
-  const totalExpenses = Math.abs(transactions
-    .filter(t => t.amount < 0)
-    .reduce((sum, t) => sum + t.amount, 0))
+  const totalExpenses = transactions
+    .filter(t => t.type_c === 'expense' || t.amount_c < 0)
+    .reduce((sum, t) => sum + Math.abs(t.amount_c || 0), 0)
 
   const netProfit = totalIncome - totalExpenses
 
@@ -134,12 +138,12 @@ const thisMonthTransactions = transactions.filter(t =>
   )
   
   const monthlyIncome = thisMonthTransactions
-    .filter(t => t.amount > 0)
-    .reduce((sum, t) => sum + t.amount, 0)
+    .filter(t => t.type_c === 'income' || t.amount_c > 0)
+    .reduce((sum, t) => sum + Math.abs(t.amount_c || 0), 0)
   
-  const monthlyExpenses = Math.abs(thisMonthTransactions
-    .filter(t => t.amount < 0)
-    .reduce((sum, t) => sum + t.amount, 0))
+  const monthlyExpenses = thisMonthTransactions
+    .filter(t => t.type_c === 'expense' || t.amount_c < 0)
+    .reduce((sum, t) => sum + Math.abs(t.amount_c || 0), 0)
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-US', {
@@ -152,6 +156,12 @@ const thisMonthTransactions = transactions.filter(t =>
     { value: 'all', label: 'All Transactions' },
     { value: 'income', label: 'Income' },
     { value: 'expense', label: 'Expenses' }
+  ]
+
+  const commentTypeOptions = [
+    { value: 'all', label: 'All Comment Types' },
+    { value: 'farmer', label: 'Farmer' },
+    { value: 'mentor', label: 'Mentor' }
   ]
 
   if (loading) return <Loading />
@@ -215,10 +225,10 @@ const thisMonthTransactions = transactions.filter(t =>
             <SearchBar
               value={searchTerm}
               onChange={setSearchTerm}
-              placeholder="Search transactions by description, category, or farm..."
+              placeholder="Search transactions by description, category, comment type, or farm..."
             />
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 flex-wrap">
             <div className="w-48">
               <select
                 value={typeFilter}
@@ -232,13 +242,24 @@ const thisMonthTransactions = transactions.filter(t =>
             </div>
             <div className="w-48">
               <select
+                value={commentTypeFilter}
+                onChange={(e) => setCommentTypeFilter(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              >
+                {commentTypeOptions.map(option => (
+                  <option key={option.value} value={option.value}>{option.label}</option>
+                ))}
+              </select>
+            </div>
+            <div className="w-48">
+              <select
                 value={farmFilter}
                 onChange={(e) => setFarmFilter(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
                 <option value="all">All Farms</option>
                 {farms.map(farm => (
-                  <option key={farm.Id} value={farm.Id}>{farm.name}</option>
+                  <option key={farm.Id} value={farm.Id}>{farm.name_c || farm.name}</option>
                 ))}
               </select>
             </div>
@@ -253,7 +274,7 @@ const thisMonthTransactions = transactions.filter(t =>
             <TransactionCard
               key={transaction.Id}
               transaction={transaction}
-              farmName={getFarmName(transaction.farmId)}
+              farmName={getFarmName(transaction.farm_id_c)}
               onEdit={handleEditTransaction}
               onDelete={handleDeleteTransaction}
             />

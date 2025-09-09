@@ -11,7 +11,7 @@ class TransactionService {
   async getAll() {
     try {
       const params = {
-        fields: [
+fields: [
           {"field": {"Name": "Id"}},
           {"field": {"Name": "Name"}},
           {"field": {"Name": "farm_id_c"}},
@@ -20,6 +20,7 @@ class TransactionService {
           {"field": {"Name": "amount_c"}},
           {"field": {"Name": "description_c"}},
           {"field": {"Name": "date_c"}},
+          {"field": {"Name": "comment_type_c"}},
           {"field": {"Name": "CreatedOn"}},
           {"field": {"Name": "ModifiedOn"}}
         ]
@@ -43,7 +44,7 @@ class TransactionService {
     try {
       const params = {
         fields: [
-          {"field": {"Name": "Id"}},
+{"field": {"Name": "Id"}},
           {"field": {"Name": "Name"}},
           {"field": {"Name": "farm_id_c"}},
           {"field": {"Name": "type_c"}},
@@ -51,6 +52,7 @@ class TransactionService {
           {"field": {"Name": "amount_c"}},
           {"field": {"Name": "description_c"}},
           {"field": {"Name": "date_c"}},
+          {"field": {"Name": "comment_type_c"}},
           {"field": {"Name": "CreatedOn"}},
           {"field": {"Name": "ModifiedOn"}}
         ]
@@ -75,12 +77,13 @@ class TransactionService {
       const params = {
         records: [{
           Name: transactionData.description_c || transactionData.description,
-          farm_id_c: parseInt(transactionData.farm_id_c || transactionData.farmId),
+farm_id_c: parseInt(transactionData.farm_id_c || transactionData.farmId),
           type_c: transactionData.type_c || transactionData.type,
           category_c: transactionData.category_c || transactionData.category,
           amount_c: transactionData.amount_c || transactionData.amount,
           description_c: transactionData.description_c || transactionData.description,
-          date_c: transactionData.date_c || transactionData.date
+          date_c: transactionData.date_c || transactionData.date,
+          comment_type_c: transactionData.comment_type_c || 'farmer'
         }]
       }
       
@@ -114,13 +117,14 @@ class TransactionService {
       const params = {
         records: [{
           Id: parseInt(id),
-          Name: transactionData.description_c || transactionData.description,
+Name: transactionData.description_c || transactionData.description,
           farm_id_c: parseInt(transactionData.farm_id_c || transactionData.farmId),
           type_c: transactionData.type_c || transactionData.type,
           category_c: transactionData.category_c || transactionData.category,
           amount_c: transactionData.amount_c || transactionData.amount,
           description_c: transactionData.description_c || transactionData.description,
-          date_c: transactionData.date_c || transactionData.date
+          date_c: transactionData.date_c || transactionData.date,
+          comment_type_c: transactionData.comment_type_c || 'farmer'
         }]
       }
       
