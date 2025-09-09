@@ -107,7 +107,11 @@ const Finances = () => {
       
       return matchesSearch && matchesType && matchesFarm
     })
-    .sort((a, b) => new Date(b.date) - new Date(a.date))
+.sort((a, b) => {
+      const dateA = a.date_c ? new Date(a.date_c) : new Date(0)
+      const dateB = b.date_c ? new Date(b.date_c) : new Date(0)
+      return dateB - dateA
+    })
 
   // Calculate financial statistics
   const totalIncome = transactions
@@ -125,8 +129,8 @@ const Finances = () => {
   const monthStart = startOfMonth(currentMonth)
   const monthEnd = endOfMonth(currentMonth)
   
-  const thisMonthTransactions = transactions.filter(t => 
-    isWithinInterval(new Date(t.date), { start: monthStart, end: monthEnd })
+const thisMonthTransactions = transactions.filter(t => 
+    t.date_c && isWithinInterval(new Date(t.date_c), { start: monthStart, end: monthEnd })
   )
   
   const monthlyIncome = thisMonthTransactions

@@ -46,11 +46,11 @@ const getStatusColor = (status) => {
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
             <span className="text-gray-600 block">Planted</span>
-<span className="font-medium">{format(new Date(crop.planted_date_c), 'MMM dd, yyyy')}</span>
+<span className="font-medium">{crop.planted_date_c ? format(new Date(crop.planted_date_c), 'MMM dd, yyyy') : 'No date'}</span>
           </div>
           <div>
             <span className="text-gray-600 block">Expected Harvest</span>
-<span className="font-medium">{format(new Date(crop.expected_harvest_c), 'MMM dd, yyyy')}</span>
+<span className="font-medium">{crop.expected_harvest_c ? format(new Date(crop.expected_harvest_c), 'MMM dd, yyyy') : 'No date'}</span>
           </div>
         </div>
         <div className="text-sm">

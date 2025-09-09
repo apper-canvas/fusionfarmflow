@@ -129,7 +129,7 @@ matchesStatus = task.completed_c
       } else if (statusFilter === 'pending') {
         matchesStatus = !task.completed_c
       } else if (statusFilter === 'overdue') {
-        matchesStatus = !task.completed_c && isPast(new Date(task.due_date_c))
+matchesStatus = !task.completed_c && task.due_date_c && isPast(new Date(task.due_date_c))
       }
       
 const matchesPriority = priorityFilter === 'all' || task.priority_c.toLowerCase() === priorityFilter
@@ -141,7 +141,9 @@ const matchesPriority = priorityFilter === 'all' || task.priority_c.toLowerCase(
 if (a.completed_c !== b.completed_c) {
         return a.completed_c ? 1 : -1
       }
-      return new Date(a.due_date_c) - new Date(b.due_date_c)
+const dateA = a.due_date_c ? new Date(a.due_date_c) : new Date('9999-12-31')
+      const dateB = b.due_date_c ? new Date(b.due_date_c) : new Date('9999-12-31')
+      return dateA - dateB
     })
 
   const statusOptions = [

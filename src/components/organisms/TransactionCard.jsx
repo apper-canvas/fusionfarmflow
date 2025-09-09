@@ -54,7 +54,7 @@ const isIncome = transaction.type_c === 'income'
         </div>
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-600">Date</span>
-<span className="font-medium">{format(new Date(transaction.date_c), 'MMM dd, yyyy')}</span>
+<span className="font-medium">{transaction.date_c ? format(new Date(transaction.date_c), 'MMM dd, yyyy') : 'No date'}</span>
         </div>
       </div>
       

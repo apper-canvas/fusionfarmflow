@@ -33,22 +33,22 @@ if (crop) {
         farm_id_c: crop.farm_id_c,
         name_c: crop.name_c,
         variety_c: crop.variety_c,
-        planted_date_c: format(new Date(crop.planted_date_c), 'yyyy-MM-dd'),
-        expected_harvest_c: format(new Date(crop.expected_harvest_c), 'yyyy-MM-dd'),
+        planted_date_c: crop.planted_date_c ? format(new Date(crop.planted_date_c), 'yyyy-MM-dd') : '',
+        expected_harvest_c: crop.expected_harvest_c ? format(new Date(crop.expected_harvest_c), 'yyyy-MM-dd') : '',
         status_c: crop.status_c,
         area_c: crop.area_c.toString(),
         notes_c: crop.notes_c || ''
       })
     } else {
-      setFormData({
-        farmId: '',
-        name: '',
-        variety: '',
-        plantedDate: '',
-        expectedHarvest: '',
-        status: 'planted',
-        area: '',
-        notes: ''
+setFormData({
+        farm_id_c: '',
+        name_c: '',
+        variety_c: '',
+        planted_date_c: '',
+        expected_harvest_c: '',
+        status_c: 'planted',
+        area_c: '',
+        notes_c: ''
       })
     }
     setErrors({})
@@ -65,17 +65,17 @@ if (crop) {
 
   const validate = () => {
     const newErrors = {}
-    if (!formData.farmId) newErrors.farmId = 'Farm selection is required'
-    if (!formData.name.trim()) newErrors.name = 'Crop name is required'
-    if (!formData.variety.trim()) newErrors.variety = 'Variety is required'
-    if (!formData.plantedDate) newErrors.plantedDate = 'Planted date is required'
-    if (!formData.expectedHarvest) newErrors.expectedHarvest = 'Expected harvest date is required'
-    if (!formData.area.trim()) newErrors.area = 'Area is required'
-    if (isNaN(formData.area) || parseFloat(formData.area) <= 0) {
-      newErrors.area = 'Area must be a valid positive number'
+if (!formData.farm_id_c) newErrors.farm_id_c = 'Farm selection is required'
+    if (!formData.name_c.trim()) newErrors.name_c = 'Crop name is required'
+    if (!formData.variety_c.trim()) newErrors.variety_c = 'Variety is required'
+    if (!formData.planted_date_c) newErrors.planted_date_c = 'Planted date is required'
+    if (!formData.expected_harvest_c) newErrors.expected_harvest_c = 'Expected harvest date is required'
+    if (!formData.area_c.trim()) newErrors.area_c = 'Area is required'
+    if (isNaN(formData.area_c) || parseFloat(formData.area_c) <= 0) {
+      newErrors.area_c = 'Area must be a valid positive number'
     }
-    if (new Date(formData.expectedHarvest) <= new Date(formData.plantedDate)) {
-      newErrors.expectedHarvest = 'Expected harvest must be after planted date'
+    if (formData.expected_harvest_c && formData.planted_date_c && new Date(formData.expected_harvest_c) <= new Date(formData.planted_date_c)) {
+      newErrors.expected_harvest_c = 'Expected harvest must be after planted date'
     }
     return newErrors
   }
@@ -105,7 +105,7 @@ if (crop) {
     }
   }
 
-  const handleChange = (field, value) => {
+const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }))
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }))
@@ -133,8 +133,8 @@ if (crop) {
             <Label htmlFor="farmId">Farm *</Label>
             <select
               id="farmId"
-              value={formData.farmId}
-              onChange={(e) => handleChange('farmId', e.target.value)}
+value={formData.farm_id_c}
+              onChange={(e) => handleChange('farm_id_c', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               <option value="">Select a farm</option>
@@ -150,21 +150,21 @@ if (crop) {
               <Label htmlFor="name">Crop Name *</Label>
               <Input
                 id="name"
-                value={formData.name}
-onChange={(e) => handleChange('name_c', e.target.value)}
+value={formData.name_c}
+                onChange={(e) => handleChange('name_c', e.target.value)}
                 placeholder="e.g., Corn, Wheat, Tomato"
               />
-              {errors.name && <p className="text-sm text-error mt-1">{errors.name}</p>}
+{errors.name_c && <p className="text-sm text-error mt-1">{errors.name_c}</p>}
             </div>
             <div>
               <Label htmlFor="variety">Variety *</Label>
               <Input
                 id="variety"
-                value={formData.variety}
-                onChange={(e) => handleChange('variety', e.target.value)}
+value={formData.variety_c}
+                onChange={(e) => handleChange('variety_c', e.target.value)}
                 placeholder="e.g., Sweet Corn, Winter Wheat"
               />
-              {errors.variety && <p className="text-sm text-error mt-1">{errors.variety}</p>}
+{errors.variety_c && <p className="text-sm text-error mt-1">{errors.variety_c}</p>}
             </div>
           </div>
 
@@ -174,20 +174,20 @@ onChange={(e) => handleChange('name_c', e.target.value)}
               <Input
                 id="plantedDate"
                 type="date"
-                value={formData.plantedDate}
-onChange={(e) => handleChange('planted_date_c', e.target.value)}
+value={formData.planted_date_c}
+                onChange={(e) => handleChange('planted_date_c', e.target.value)}
               />
-              {errors.plantedDate && <p className="text-sm text-error mt-1">{errors.plantedDate}</p>}
+{errors.planted_date_c && <p className="text-sm text-error mt-1">{errors.planted_date_c}</p>}
             </div>
             <div>
               <Label htmlFor="expectedHarvest">Expected Harvest *</Label>
               <Input
                 id="expectedHarvest"
                 type="date"
-                value={formData.expectedHarvest}
-                onChange={(e) => handleChange('expectedHarvest', e.target.value)}
+value={formData.expected_harvest_c}
+                onChange={(e) => handleChange('expected_harvest_c', e.target.value)}
               />
-              {errors.expectedHarvest && <p className="text-sm text-error mt-1">{errors.expectedHarvest}</p>}
+{errors.expected_harvest_c && <p className="text-sm text-error mt-1">{errors.expected_harvest_c}</p>}
             </div>
           </div>
 
@@ -196,8 +196,8 @@ onChange={(e) => handleChange('planted_date_c', e.target.value)}
               <Label htmlFor="status">Status</Label>
               <select
                 id="status"
-                value={formData.status}
-onChange={(e) => handleChange('status_c', e.target.value)}
+value={formData.status_c}
+                onChange={(e) => handleChange('status_c', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
                 <option value="planted">Planted</option>
@@ -213,7 +213,7 @@ onChange={(e) => handleChange('status_c', e.target.value)}
                 type="number"
                 step="0.1"
 value={formData.area_c}
-                onChange={(e) => handleChange('area', e.target.value)}
+                onChange={(e) => handleChange('area_c', e.target.value)}
                 placeholder="0.0"
               />
               {errors.area && <p className="text-sm text-error mt-1">{errors.area}</p>}
@@ -224,8 +224,8 @@ value={formData.area_c}
             <Label htmlFor="notes">Notes</Label>
             <textarea
               id="notes"
-              value={formData.notes}
-onChange={(e) => handleChange('notes_c', e.target.value)}
+value={formData.notes_c}
+              onChange={(e) => handleChange('notes_c', e.target.value)}
               placeholder="Additional notes about this crop..."
               rows={3}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"

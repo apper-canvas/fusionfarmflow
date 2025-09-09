@@ -50,14 +50,14 @@ const Dashboard = () => {
   if (loading) return <Loading rows={4} />
   if (error) return <Error message={error} onRetry={loadDashboardData} />
 
-  const upcomingTasks = data.tasks
+const upcomingTasks = data.tasks
     .filter(task => !task.completed && isThisWeek(new Date(task.dueDate)))
     .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
     .slice(0, 5)
 
   const overdueTasks = data.tasks.filter(task => !task.completed && isPast(new Date(task.dueDate)))
 
-  const recentTransactions = data.transactions
+const recentTransactions = data.transactions
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .slice(0, 5)
 
@@ -179,7 +179,7 @@ switch ((priority ?? '').toLowerCase()) {
                     <div className="flex items-center space-x-2">
                       <Badge variant={getPriorityColor(task.priority)}>{task.priority}</Badge>
                       <span className="text-sm text-gray-600">
-                        {format(new Date(task.dueDate), 'MMM dd')}
+{task.due_date_c ? format(new Date(task.due_date_c), 'MMM dd') : 'No date'}
                       </span>
                     </div>
                   </div>
@@ -245,7 +245,7 @@ switch ((priority ?? '').toLowerCase()) {
                       {transaction.amount > 0 ? '+' : ''}{formatCurrency(transaction.amount)}
                     </p>
                     <p className="text-sm text-gray-600">
-                      {format(new Date(transaction.date), 'MMM dd')}
+{transaction.date_c ? format(new Date(transaction.date_c), 'MMM dd') : 'No date'}
                     </p>
                   </div>
                 </div>

@@ -55,16 +55,16 @@ farm_id_c: transaction.farm_id_c,
         category_c: transaction.category_c,
         amount_c: Math.abs(transaction.amount_c).toString(),
         description_c: transaction.description_c,
-        date_c: format(new Date(transaction.date_c), 'yyyy-MM-dd')
+        date_c: transaction.date_c ? format(new Date(transaction.date_c), 'yyyy-MM-dd') : format(new Date(), 'yyyy-MM-dd')
       })
     } else {
-      setFormData({
-        farmId: '',
-        type: 'expense',
-        category: '',
-        amount: '',
-        description: '',
-        date: format(new Date(), 'yyyy-MM-dd')
+setFormData({
+        farm_id_c: '',
+        type_c: 'expense',
+        category_c: '',
+        amount_c: '',
+        description_c: '',
+        date_c: format(new Date(), 'yyyy-MM-dd')
       })
     }
     setErrors({})
@@ -81,14 +81,14 @@ farm_id_c: transaction.farm_id_c,
 
   const validate = () => {
     const newErrors = {}
-    if (!formData.farmId) newErrors.farmId = 'Farm selection is required'
-    if (!formData.category) newErrors.category = 'Category is required'
-    if (!formData.amount.trim()) newErrors.amount = 'Amount is required'
-    if (isNaN(formData.amount) || parseFloat(formData.amount) <= 0) {
-      newErrors.amount = 'Amount must be a valid positive number'
+if (!formData.farm_id_c) newErrors.farm_id_c = 'Farm selection is required'
+    if (!formData.category_c) newErrors.category_c = 'Category is required'
+    if (!formData.amount_c.trim()) newErrors.amount_c = 'Amount is required'
+    if (isNaN(formData.amount_c) || parseFloat(formData.amount_c) <= 0) {
+      newErrors.amount_c = 'Amount must be a valid positive number'
     }
-    if (!formData.description.trim()) newErrors.description = 'Description is required'
-    if (!formData.date) newErrors.date = 'Date is required'
+    if (!formData.description_c.trim()) newErrors.description_c = 'Description is required'
+    if (!formData.date_c) newErrors.date_c = 'Date is required'
     return newErrors
   }
 
@@ -103,8 +103,8 @@ farm_id_c: transaction.farm_id_c,
     setLoading(true)
     try {
       const transactionData = {
-        ...formData,
-farm_id_c: parseInt(formData.farm_id_c),
+...formData,
+        farm_id_c: parseInt(formData.farm_id_c),
         amount_c: formData.type_c === 'income' ? parseFloat(formData.amount_c) : -parseFloat(formData.amount_c),
         date_c: formData.date_c
       }
@@ -117,22 +117,22 @@ farm_id_c: parseInt(formData.farm_id_c),
     }
   }
 
-  const handleChange = (field, value) => {
+const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }))
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }))
     }
     
     // Reset category when type changes
-    if (field === 'type') {
-      setFormData(prev => ({ ...prev, category: '' }))
+    if (field === 'type_c') {
+      setFormData(prev => ({ ...prev, category_c: '' }))
       if (errors.category) {
         setErrors(prev => ({ ...prev, category: '' }))
       }
     }
   }
 
-  const currentCategories = formData.type === 'income' ? incomeCategories : expenseCategories
+const currentCategories = formData.type_c === 'income' ? incomeCategories : expenseCategories
 
   if (!isOpen) return null
 
@@ -155,8 +155,8 @@ farm_id_c: parseInt(formData.farm_id_c),
             <Label htmlFor="farmId">Farm *</Label>
             <select
               id="farmId"
-              value={formData.farmId}
-              onChange={(e) => handleChange('farmId', e.target.value)}
+value={formData.farm_id_c}
+              onChange={(e) => handleChange('farm_id_c', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               <option value="">Select a farm</option>
@@ -164,7 +164,7 @@ farm_id_c: parseInt(formData.farm_id_c),
                 <option key={farm.Id} value={farm.Id}>{farm.name_c}</option>
               ))}
             </select>
-            {errors.farmId && <p className="text-sm text-error mt-1">{errors.farmId}</p>}
+{errors.farm_id_c && <p className="text-sm text-error mt-1">{errors.farm_id_c}</p>}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -173,7 +173,7 @@ farm_id_c: parseInt(formData.farm_id_c),
               <select
                 id="type"
 value={formData.type_c}
-                onChange={(e) => handleChange('type', e.target.value)}
+                onChange={(e) => handleChange('type_c', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
                 <option value="expense">Expense</option>
@@ -185,7 +185,7 @@ value={formData.type_c}
               <select
                 id="category"
 value={formData.category_c}
-                onChange={(e) => handleChange('category', e.target.value)}
+                onChange={(e) => handleChange('category_c', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
                 <option value="">Select a category</option>
@@ -193,7 +193,7 @@ value={formData.category_c}
                   <option key={category} value={category}>{category}</option>
                 ))}
               </select>
-              {errors.category && <p className="text-sm text-error mt-1">{errors.category}</p>}
+{errors.category_c && <p className="text-sm text-error mt-1">{errors.category_c}</p>}
             </div>
           </div>
 
@@ -207,12 +207,12 @@ value={formData.category_c}
                   type="number"
                   step="0.01"
 value={formData.amount_c}
-                  onChange={(e) => handleChange('amount', e.target.value)}
+                  onChange={(e) => handleChange('amount_c', e.target.value)}
                   placeholder="0.00"
                   className="pl-8"
                 />
               </div>
-              {errors.amount && <p className="text-sm text-error mt-1">{errors.amount}</p>}
+{errors.amount_c && <p className="text-sm text-error mt-1">{errors.amount_c}</p>}
             </div>
             <div>
               <Label htmlFor="date">Date *</Label>
@@ -220,9 +220,9 @@ value={formData.amount_c}
                 id="date"
                 type="date"
 value={formData.date_c}
-                onChange={(e) => handleChange('date', e.target.value)}
+                onChange={(e) => handleChange('date_c', e.target.value)}
               />
-              {errors.date && <p className="text-sm text-error mt-1">{errors.date}</p>}
+{errors.date_c && <p className="text-sm text-error mt-1">{errors.date_c}</p>}
             </div>
           </div>
 
@@ -231,10 +231,10 @@ value={formData.date_c}
             <Input
               id="description"
 value={formData.description_c}
-              onChange={(e) => handleChange('description', e.target.value)}
+              onChange={(e) => handleChange('description_c', e.target.value)}
               placeholder="Brief description of the transaction"
             />
-            {errors.description && <p className="text-sm text-error mt-1">{errors.description}</p>}
+{errors.description_c && <p className="text-sm text-error mt-1">{errors.description_c}</p>}
           </div>
 
           {errors.submit && (

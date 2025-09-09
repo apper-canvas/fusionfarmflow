@@ -24,7 +24,7 @@ const TaskCard = ({ task, farmName, cropName, onEdit, onDelete, onComplete }) =>
     }
   }
 
-const isTaskOverdue = isPast(new Date(task.due_date_c)) && !task.completed_c
+const isTaskOverdue = task.due_date_c && isPast(new Date(task.due_date_c)) && !task.completed_c
   const taskIcon = task.completed_c ? 'CheckCircle' : getPriorityIcon(task.priority_c)
 
   return (
@@ -64,7 +64,7 @@ task.completed_c
         <div className="text-sm">
           <span className="text-gray-600 block">Due Date</span>
 <span className={`font-medium ${isTaskOverdue ? 'text-error' : ''}`}>
-            {format(new Date(task.due_date_c), 'MMM dd, yyyy')}
+            {task.due_date_c ? format(new Date(task.due_date_c), 'MMM dd, yyyy') : 'No due date'}
           </span>
         </div>
 {task.description_c && (
@@ -77,7 +77,7 @@ task.completed_c
           <div className="text-sm">
             <span className="text-gray-600 block">Completed At</span>
             <span className="font-medium text-success">
-              {format(new Date(task.completed_at_c), 'MMM dd, yyyy HH:mm')}
+              {task.completed_at_c ? format(new Date(task.completed_at_c), 'MMM dd, yyyy HH:mm') : 'Invalid date'}
             </span>
           </div>
         )}
