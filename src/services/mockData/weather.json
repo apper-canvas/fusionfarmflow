@@ -1,0 +1,85 @@
+{
+  "current": {
+    "temperature": 22,
+    "condition": "sunny",
+    "humidity": 65,
+    "windSpeed": 12,
+    "windDirection": "SW",
+    "pressure": 1013.2,
+    "visibility": 10,
+    "uvIndex": 6,
+    "feelsLike": 25
+  },
+  "forecast": [
+    {
+      "date": "2024-01-15",
+      "day": "Monday",
+      "high": 24,
+      "low": 18,
+      "condition": "sunny",
+      "humidity": 60,
+      "windSpeed": 10,
+      "precipitation": 0
+    },
+    {
+      "date": "2024-01-16",
+      "day": "Tuesday", 
+      "high": 26,
+      "low": 20,
+      "condition": "cloudy",
+      "humidity": 70,
+      "windSpeed": 15,
+      "precipitation": 10
+    },
+    {
+      "date": "2024-01-17",
+      "day": "Wednesday",
+      "high": 23,
+      "low": 17,
+      "condition": "rainy",
+      "humidity": 85,
+      "windSpeed": 18,
+      "precipitation": 80
+    },
+    {
+      "date": "2024-01-18",
+      "day": "Thursday",
+      "high": 21,
+      "low": 15,
+      "condition": "stormy",
+      "humidity": 90,
+      "windSpeed": 25,
+      "precipitation": 95
+    },
+    {
+      "date": "2024-01-19",
+      "day": "Friday",
+      "high": 19,
+      "low": 13,
+      "condition": "cloudy",
+      "humidity": 75,
+      "windSpeed": 20,
+      "precipitation": 30
+    },
+    {
+      "date": "2024-01-20",
+      "day": "Saturday",
+      "high": 25,
+      "low": 19,
+      "condition": "sunny",
+      "humidity": 55,
+      "windSpeed": 8,
+      "precipitation": 0
+    },
+    {
+      "date": "2024-01-21",
+      "day": "Sunday",
+      "high": 27,
+      "low": 21,
+      "condition": "sunny",
+      "humidity": 50,
+      "windSpeed": 12,
+      "precipitation": 5
+    }
+  ]
+}
