@@ -71,8 +71,8 @@ const Dashboard = () => {
 
   const netProfit = totalIncome - totalExpenses
 
-  const activeCrops = data.crops.filter(crop => ['planted', 'growing'].includes(crop.status.toLowerCase()))
-  const readyCrops = data.crops.filter(crop => crop.status.toLowerCase() === 'ready')
+const activeCrops = data.crops.filter(crop => ['planted', 'growing'].includes((crop.status ?? '').toLowerCase()))
+  const readyCrops = data.crops.filter(crop => (crop.status ?? '').toLowerCase() === 'ready')
 
   const getFarmName = (farmId) => {
     const farm = data.farms.find(f => f.Id === farmId)
@@ -85,7 +85,7 @@ const Dashboard = () => {
   }
 
   const getPriorityColor = (priority) => {
-    switch (priority.toLowerCase()) {
+switch ((priority ?? '').toLowerCase()) {
       case 'high': return 'error'
       case 'medium': return 'warning'
       case 'low': return 'info'
