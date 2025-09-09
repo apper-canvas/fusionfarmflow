@@ -5,8 +5,8 @@ import Label from '@/components/atoms/Label'
 import ApperIcon from '@/components/ApperIcon'
 
 const AddFarmModal = ({ isOpen, onClose, onSave, farm = null }) => {
-  const [formData, setFormData] = useState({
-name_c: '',
+const [formData, setFormData] = useState({
+    name_c: '',
     location_c: '',
     size_c: '',
     unit_c: 'acres'
@@ -24,10 +24,10 @@ if (farm) {
       })
     } else {
       setFormData({
-        name: '',
-        location: '',
-        size: '',
-        unit: 'acres'
+name_c: '',
+        location_c: '',
+        size_c: '',
+        unit_c: 'acres'
       })
     }
     setErrors({})
@@ -35,10 +35,10 @@ if (farm) {
 
   const validate = () => {
     const newErrors = {}
-    if (!formData.name.trim()) newErrors.name = 'Farm name is required'
-    if (!formData.location.trim()) newErrors.location = 'Location is required'
-    if (!formData.size.trim()) newErrors.size = 'Size is required'
-    if (isNaN(formData.size) || parseFloat(formData.size) <= 0) {
+if (!formData.name_c.trim()) newErrors.name = 'Farm name is required'
+    if (!formData.location_c.trim()) newErrors.location = 'Location is required'
+    if (!formData.size_c.trim()) newErrors.size = 'Size is required'
+    if (isNaN(formData.size_c) || parseFloat(formData.size_c) <= 0) {
       newErrors.size = 'Size must be a valid positive number'
     }
     return newErrors
@@ -96,7 +96,7 @@ if (farm) {
             <Input
               id="name"
 value={formData.name_c}
-              onChange={(e) => handleChange('name', e.target.value)}
+              onChange={(e) => handleChange('name_c', e.target.value)}
               placeholder="Enter farm name"
             />
             {errors.name && <p className="text-sm text-error mt-1">{errors.name}</p>}
@@ -107,7 +107,7 @@ value={formData.name_c}
             <Input
               id="location"
 value={formData.location_c}
-              onChange={(e) => handleChange('location', e.target.value)}
+              onChange={(e) => handleChange('location_c', e.target.value)}
               placeholder="Enter location"
             />
             {errors.location && <p className="text-sm text-error mt-1">{errors.location}</p>}
@@ -120,8 +120,8 @@ value={formData.location_c}
                 id="size"
                 type="number"
                 step="0.1"
-                value={formData.size}
-onChange={(e) => handleChange('size_c', e.target.value)}
+value={formData.size_c}
+                onChange={(e) => handleChange('size_c', e.target.value)}
                 placeholder="0.0"
               />
               {errors.size && <p className="text-sm text-error mt-1">{errors.size}</p>}
@@ -130,8 +130,8 @@ onChange={(e) => handleChange('size_c', e.target.value)}
               <Label htmlFor="unit">Unit</Label>
               <select
                 id="unit"
-                value={formData.unit}
-                onChange={(e) => handleChange('unit', e.target.value)}
+value={formData.unit_c}
+                onChange={(e) => handleChange('unit_c', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
                 <option value="acres">Acres</option>
