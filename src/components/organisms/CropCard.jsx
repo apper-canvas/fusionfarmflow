@@ -6,7 +6,7 @@ import ApperIcon from '@/components/ApperIcon'
 import { format } from 'date-fns'
 
 const CropCard = ({ crop, farmName, onEdit, onDelete }) => {
-  const getStatusColor = (status) => {
+const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
       case 'planted': return 'info'
       case 'growing': return 'success'
@@ -31,36 +31,36 @@ const CropCard = ({ crop, farmName, onEdit, onDelete }) => {
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center space-x-3">
           <div className="p-3 bg-gradient-to-br from-accent-500 to-secondary-500 rounded-lg">
-            <ApperIcon name={getStatusIcon(crop.status)} size={24} className="text-white" />
+<ApperIcon name={getStatusIcon(crop.status_c)} size={24} className="text-white" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">{crop.name}</h3>
-            <p className="text-sm text-gray-600">{crop.variety}</p>
+<h3 className="text-lg font-semibold text-gray-900">{crop.name_c}</h3>
+            <p className="text-sm text-gray-600">{crop.variety_c}</p>
             <p className="text-xs text-gray-500">{farmName}</p>
           </div>
         </div>
-        <Badge variant={getStatusColor(crop.status)}>{crop.status}</Badge>
+<Badge variant={getStatusColor(crop.status_c)}>{crop.status_c}</Badge>
       </div>
       
       <div className="space-y-3 mb-6">
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
             <span className="text-gray-600 block">Planted</span>
-            <span className="font-medium">{format(new Date(crop.plantedDate), 'MMM dd, yyyy')}</span>
+<span className="font-medium">{format(new Date(crop.planted_date_c), 'MMM dd, yyyy')}</span>
           </div>
           <div>
             <span className="text-gray-600 block">Expected Harvest</span>
-            <span className="font-medium">{format(new Date(crop.expectedHarvest), 'MMM dd, yyyy')}</span>
+<span className="font-medium">{format(new Date(crop.expected_harvest_c), 'MMM dd, yyyy')}</span>
           </div>
         </div>
         <div className="text-sm">
           <span className="text-gray-600 block">Area</span>
-          <span className="font-medium">{crop.area} acres</span>
+<span className="font-medium">{crop.area_c} acres</span>
         </div>
-        {crop.notes && (
+{crop.notes_c && (
           <div className="text-sm">
             <span className="text-gray-600 block">Notes</span>
-            <p className="text-gray-700 text-xs bg-gray-50 p-2 rounded">{crop.notes}</p>
+            <p className="text-gray-700 text-xs bg-gray-50 p-2 rounded">{crop.notes_c}</p>
           </div>
         )}
       </div>

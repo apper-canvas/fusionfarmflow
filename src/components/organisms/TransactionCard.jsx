@@ -6,7 +6,7 @@ import ApperIcon from '@/components/ApperIcon'
 import { format } from 'date-fns'
 
 const TransactionCard = ({ transaction, farmName, onEdit, onDelete }) => {
-  const isIncome = transaction.type === 'income'
+const isIncome = transaction.type_c === 'income'
   
   const getTypeIcon = (type) => {
     return type === 'income' ? 'TrendingUp' : 'TrendingDown'
@@ -30,19 +30,19 @@ const TransactionCard = ({ transaction, farmName, onEdit, onDelete }) => {
               ? 'bg-gradient-to-br from-success to-green-600' 
               : 'bg-gradient-to-br from-error to-red-600'
           }`}>
-            <ApperIcon name={getTypeIcon(transaction.type)} size={24} className="text-white" />
+<ApperIcon name={getTypeIcon(transaction.type_c)} size={24} className="text-white" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">{transaction.description}</h3>
+<h3 className="text-lg font-semibold text-gray-900">{transaction.description_c}</h3>
             <p className="text-sm text-gray-600">{farmName}</p>
           </div>
         </div>
         <div className="text-right">
           <p className={`text-xl font-bold ${isIncome ? 'text-success' : 'text-error'}`}>
-            {isIncome ? '+' : '-'}{formatCurrency(Math.abs(transaction.amount))}
+{isIncome ? '+' : '-'}{formatCurrency(Math.abs(transaction.amount_c))}
           </p>
           <Badge variant={isIncome ? 'success' : 'error'}>
-            {transaction.type}
+{transaction.type_c}
           </Badge>
         </div>
       </div>
@@ -50,11 +50,11 @@ const TransactionCard = ({ transaction, farmName, onEdit, onDelete }) => {
       <div className="space-y-2 mb-6">
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-600">Category</span>
-          <span className="font-medium capitalize">{transaction.category}</span>
+<span className="font-medium capitalize">{transaction.category_c}</span>
         </div>
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-600">Date</span>
-          <span className="font-medium">{format(new Date(transaction.date), 'MMM dd, yyyy')}</span>
+<span className="font-medium">{format(new Date(transaction.date_c), 'MMM dd, yyyy')}</span>
         </div>
       </div>
       

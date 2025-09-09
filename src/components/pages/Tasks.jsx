@@ -51,7 +51,7 @@ const Tasks = () => {
   const handleSaveTask = async (taskData) => {
     try {
       if (editingTask) {
-        await taskService.update(editingTask.Id, taskData)
+await taskService.update(editingTask.Id, taskData)
         toast.success('Task updated successfully!')
       } else {
         await taskService.create(taskData)
@@ -83,12 +83,12 @@ const Tasks = () => {
 
   const handleCompleteTask = async (taskId) => {
     try {
-      const task = tasks.find(t => t.Id === taskId)
+const task = tasks.find(t => t.Id === taskId)
       if (!task) return
 
       const updatedTask = {
         ...task,
-        completed: true,
+completed_c: true,
         completedAt: new Date().toISOString()
       }
 
@@ -106,42 +106,42 @@ const Tasks = () => {
   }
 
   const getFarmName = (farmId) => {
-    const farm = farms.find(f => f.Id === farmId)
+const farm = farms.find(f => f.Id === farmId)
     return farm ? farm.name : 'Unknown Farm'
   }
 
   const getCropName = (cropId) => {
-    const crop = crops.find(c => c.Id === cropId)
+const crop = crops.find(c => c.Id === cropId)
     return crop ? crop.name : 'Unknown Crop'
   }
 
   const filteredTasks = tasks
     .filter(task => {
       const matchesSearch = 
-        task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        task.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        getFarmName(task.farmId).toLowerCase().includes(searchTerm.toLowerCase()) ||
-        getCropName(task.cropId).toLowerCase().includes(searchTerm.toLowerCase())
+task.title_c.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        task.description_c?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        getFarmName(task.farm_id_c).toLowerCase().includes(searchTerm.toLowerCase()) ||
+        getCropName(task.crop_id_c).toLowerCase().includes(searchTerm.toLowerCase())
       
       let matchesStatus = true
       if (statusFilter === 'completed') {
-        matchesStatus = task.completed
+matchesStatus = task.completed_c
       } else if (statusFilter === 'pending') {
-        matchesStatus = !task.completed
+        matchesStatus = !task.completed_c
       } else if (statusFilter === 'overdue') {
-        matchesStatus = !task.completed && isPast(new Date(task.dueDate))
+        matchesStatus = !task.completed_c && isPast(new Date(task.due_date_c))
       }
       
-      const matchesPriority = priorityFilter === 'all' || task.priority.toLowerCase() === priorityFilter
+const matchesPriority = priorityFilter === 'all' || task.priority_c.toLowerCase() === priorityFilter
       
       return matchesSearch && matchesStatus && matchesPriority
     })
     .sort((a, b) => {
       // Sort by completion status first, then by due date
-      if (a.completed !== b.completed) {
-        return a.completed ? 1 : -1
+if (a.completed_c !== b.completed_c) {
+        return a.completed_c ? 1 : -1
       }
-      return new Date(a.dueDate) - new Date(b.dueDate)
+      return new Date(a.due_date_c) - new Date(b.due_date_c)
     })
 
   const statusOptions = [
@@ -221,10 +221,10 @@ const Tasks = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {filteredTasks.map((task) => (
             <TaskCard
-              key={task.Id}
+key={task.Id}
               task={task}
-              farmName={getFarmName(task.farmId)}
-              cropName={getCropName(task.cropId)}
+              farmName={getFarmName(task.farm_id_c)}
+              cropName={getCropName(task.crop_id_c)}
               onEdit={handleEditTask}
               onDelete={handleDeleteTask}
               onComplete={handleCompleteTask}

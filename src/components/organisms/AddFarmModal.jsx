@@ -6,21 +6,21 @@ import ApperIcon from '@/components/ApperIcon'
 
 const AddFarmModal = ({ isOpen, onClose, onSave, farm = null }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    location: '',
-    size: '',
-    unit: 'acres'
+name_c: '',
+    location_c: '',
+    size_c: '',
+    unit_c: 'acres'
   })
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    if (farm) {
+if (farm) {
       setFormData({
-        name: farm.name,
-        location: farm.location,
-        size: farm.size.toString(),
-        unit: farm.unit
+        name_c: farm.name_c,
+        location_c: farm.location_c,
+        size_c: farm.size_c.toString(),
+        unit_c: farm.unit_c
       })
     } else {
       setFormData({
@@ -55,8 +55,8 @@ const AddFarmModal = ({ isOpen, onClose, onSave, farm = null }) => {
     setLoading(true)
     try {
       const farmData = {
-        ...formData,
-        size: parseFloat(formData.size)
+...formData,
+        size_c: parseFloat(formData.size_c)
       }
       await onSave(farmData)
       onClose()
@@ -95,7 +95,7 @@ const AddFarmModal = ({ isOpen, onClose, onSave, farm = null }) => {
             <Label htmlFor="name">Farm Name *</Label>
             <Input
               id="name"
-              value={formData.name}
+value={formData.name_c}
               onChange={(e) => handleChange('name', e.target.value)}
               placeholder="Enter farm name"
             />
@@ -106,7 +106,7 @@ const AddFarmModal = ({ isOpen, onClose, onSave, farm = null }) => {
             <Label htmlFor="location">Location *</Label>
             <Input
               id="location"
-              value={formData.location}
+value={formData.location_c}
               onChange={(e) => handleChange('location', e.target.value)}
               placeholder="Enter location"
             />
@@ -121,7 +121,7 @@ const AddFarmModal = ({ isOpen, onClose, onSave, farm = null }) => {
                 type="number"
                 step="0.1"
                 value={formData.size}
-                onChange={(e) => handleChange('size', e.target.value)}
+onChange={(e) => handleChange('size_c', e.target.value)}
                 placeholder="0.0"
               />
               {errors.size && <p className="text-sm text-error mt-1">{errors.size}</p>}

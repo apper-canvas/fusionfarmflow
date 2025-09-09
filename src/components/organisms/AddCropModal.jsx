@@ -8,14 +8,14 @@ import { format } from 'date-fns'
 
 const AddCropModal = ({ isOpen, onClose, onSave, crop = null }) => {
   const [formData, setFormData] = useState({
-    farmId: '',
-    name: '',
-    variety: '',
-    plantedDate: '',
-    expectedHarvest: '',
-    status: 'planted',
-    area: '',
-    notes: ''
+farm_id_c: '',
+    name_c: '',
+    variety_c: '',
+    planted_date_c: '',
+    expected_harvest_c: '',
+    status_c: 'planted',
+    area_c: '',
+    notes_c: ''
   })
   const [farms, setFarms] = useState([])
   const [errors, setErrors] = useState({})
@@ -28,16 +28,16 @@ const AddCropModal = ({ isOpen, onClose, onSave, crop = null }) => {
   }, [isOpen])
 
   useEffect(() => {
-    if (crop) {
+if (crop) {
       setFormData({
-        farmId: crop.farmId,
-        name: crop.name,
-        variety: crop.variety,
-        plantedDate: format(new Date(crop.plantedDate), 'yyyy-MM-dd'),
-        expectedHarvest: format(new Date(crop.expectedHarvest), 'yyyy-MM-dd'),
-        status: crop.status,
-        area: crop.area.toString(),
-        notes: crop.notes || ''
+        farm_id_c: crop.farm_id_c,
+        name_c: crop.name_c,
+        variety_c: crop.variety_c,
+        planted_date_c: format(new Date(crop.planted_date_c), 'yyyy-MM-dd'),
+        expected_harvest_c: format(new Date(crop.expected_harvest_c), 'yyyy-MM-dd'),
+        status_c: crop.status_c,
+        area_c: crop.area_c.toString(),
+        notes_c: crop.notes_c || ''
       })
     } else {
       setFormData({
@@ -91,10 +91,10 @@ const AddCropModal = ({ isOpen, onClose, onSave, crop = null }) => {
     setLoading(true)
     try {
       const cropData = {
-        ...formData,
-        area: parseFloat(formData.area),
-        plantedDate: new Date(formData.plantedDate).toISOString(),
-        expectedHarvest: new Date(formData.expectedHarvest).toISOString()
+...formData,
+        area_c: parseFloat(formData.area_c),
+        planted_date_c: formData.planted_date_c,
+        expected_harvest_c: formData.expected_harvest_c
       }
       await onSave(cropData)
       onClose()
@@ -138,8 +138,8 @@ const AddCropModal = ({ isOpen, onClose, onSave, crop = null }) => {
               className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               <option value="">Select a farm</option>
-              {farms.map(farm => (
-                <option key={farm.Id} value={farm.Id}>{farm.name}</option>
+{farms.map(farm => (
+                <option key={farm.Id} value={farm.Id}>{farm.name_c}</option>
               ))}
             </select>
             {errors.farmId && <p className="text-sm text-error mt-1">{errors.farmId}</p>}
@@ -151,7 +151,7 @@ const AddCropModal = ({ isOpen, onClose, onSave, crop = null }) => {
               <Input
                 id="name"
                 value={formData.name}
-                onChange={(e) => handleChange('name', e.target.value)}
+onChange={(e) => handleChange('name_c', e.target.value)}
                 placeholder="e.g., Corn, Wheat, Tomato"
               />
               {errors.name && <p className="text-sm text-error mt-1">{errors.name}</p>}
@@ -175,7 +175,7 @@ const AddCropModal = ({ isOpen, onClose, onSave, crop = null }) => {
                 id="plantedDate"
                 type="date"
                 value={formData.plantedDate}
-                onChange={(e) => handleChange('plantedDate', e.target.value)}
+onChange={(e) => handleChange('planted_date_c', e.target.value)}
               />
               {errors.plantedDate && <p className="text-sm text-error mt-1">{errors.plantedDate}</p>}
             </div>
@@ -197,7 +197,7 @@ const AddCropModal = ({ isOpen, onClose, onSave, crop = null }) => {
               <select
                 id="status"
                 value={formData.status}
-                onChange={(e) => handleChange('status', e.target.value)}
+onChange={(e) => handleChange('status_c', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
                 <option value="planted">Planted</option>
@@ -212,7 +212,7 @@ const AddCropModal = ({ isOpen, onClose, onSave, crop = null }) => {
                 id="area"
                 type="number"
                 step="0.1"
-                value={formData.area}
+value={formData.area_c}
                 onChange={(e) => handleChange('area', e.target.value)}
                 placeholder="0.0"
               />
@@ -225,7 +225,7 @@ const AddCropModal = ({ isOpen, onClose, onSave, crop = null }) => {
             <textarea
               id="notes"
               value={formData.notes}
-              onChange={(e) => handleChange('notes', e.target.value)}
+onChange={(e) => handleChange('notes_c', e.target.value)}
               placeholder="Additional notes about this crop..."
               rows={3}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"

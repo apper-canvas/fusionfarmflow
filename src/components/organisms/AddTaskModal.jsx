@@ -8,13 +8,13 @@ import cropService from '@/services/api/cropService'
 import { format } from 'date-fns'
 
 const AddTaskModal = ({ isOpen, onClose, onSave, task = null }) => {
-  const [formData, setFormData] = useState({
-    farmId: '',
-    cropId: '',
-    title: '',
-    description: '',
-    dueDate: '',
-    priority: 'medium'
+const [formData, setFormData] = useState({
+    farm_id_c: '',
+    crop_id_c: '',
+    title_c: '',
+    description_c: '',
+    due_date_c: '',
+    priority_c: 'medium'
   })
   const [farms, setFarms] = useState([])
   const [crops, setCrops] = useState([])
@@ -31,13 +31,13 @@ const AddTaskModal = ({ isOpen, onClose, onSave, task = null }) => {
 
   useEffect(() => {
     if (task) {
-      setFormData({
-        farmId: task.farmId,
-        cropId: task.cropId,
-        title: task.title,
-        description: task.description || '',
-        dueDate: format(new Date(task.dueDate), 'yyyy-MM-dd'),
-        priority: task.priority
+setFormData({
+        farm_id_c: task.farm_id_c,
+        crop_id_c: task.crop_id_c,
+        title_c: task.title_c,
+        description_c: task.description_c || '',
+        due_date_c: format(new Date(task.due_date_c), 'yyyy-MM-dd'),
+        priority_c: task.priority_c
       })
     } else {
       setFormData({
@@ -54,7 +54,7 @@ const AddTaskModal = ({ isOpen, onClose, onSave, task = null }) => {
 
   useEffect(() => {
     if (formData.farmId) {
-      const farmCrops = allCrops.filter(crop => crop.farmId === parseInt(formData.farmId))
+const farmCrops = allCrops.filter(crop => crop.farm_id_c === parseInt(formData.farm_id_c))
       setCrops(farmCrops)
       if (!farmCrops.find(crop => crop.Id === parseInt(formData.cropId))) {
         setFormData(prev => ({ ...prev, cropId: '' }))
@@ -103,10 +103,10 @@ const AddTaskModal = ({ isOpen, onClose, onSave, task = null }) => {
     setLoading(true)
     try {
       const taskData = {
-        ...formData,
-        farmId: parseInt(formData.farmId),
-        cropId: parseInt(formData.cropId),
-        dueDate: new Date(formData.dueDate).toISOString()
+...formData,
+        farm_id_c: parseInt(formData.farm_id_c),
+        crop_id_c: parseInt(formData.crop_id_c),
+        due_date_c: formData.due_date_c
       }
       await onSave(taskData)
       onClose()
@@ -152,7 +152,7 @@ const AddTaskModal = ({ isOpen, onClose, onSave, task = null }) => {
               >
                 <option value="">Select a farm</option>
                 {farms.map(farm => (
-                  <option key={farm.Id} value={farm.Id}>{farm.name}</option>
+<option key={farm.Id} value={farm.Id}>{farm.name_c}</option>
                 ))}
               </select>
               {errors.farmId && <p className="text-sm text-error mt-1">{errors.farmId}</p>}
@@ -168,7 +168,7 @@ const AddTaskModal = ({ isOpen, onClose, onSave, task = null }) => {
               >
                 <option value="">Select a crop</option>
                 {crops.map(crop => (
-                  <option key={crop.Id} value={crop.Id}>{crop.name} ({crop.variety})</option>
+<option key={crop.Id} value={crop.Id}>{crop.name_c} ({crop.variety_c})</option>
                 ))}
               </select>
               {errors.cropId && <p className="text-sm text-error mt-1">{errors.cropId}</p>}
@@ -180,7 +180,7 @@ const AddTaskModal = ({ isOpen, onClose, onSave, task = null }) => {
             <Input
               id="title"
               value={formData.title}
-              onChange={(e) => handleChange('title', e.target.value)}
+onChange={(e) => handleChange('title_c', e.target.value)}
               placeholder="e.g., Water crops, Apply fertilizer, Harvest"
             />
             {errors.title && <p className="text-sm text-error mt-1">{errors.title}</p>}
@@ -191,7 +191,7 @@ const AddTaskModal = ({ isOpen, onClose, onSave, task = null }) => {
             <textarea
               id="description"
               value={formData.description}
-              onChange={(e) => handleChange('description', e.target.value)}
+onChange={(e) => handleChange('description_c', e.target.value)}
               placeholder="Additional details about this task..."
               rows={3}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
@@ -205,7 +205,7 @@ const AddTaskModal = ({ isOpen, onClose, onSave, task = null }) => {
                 id="dueDate"
                 type="date"
                 value={formData.dueDate}
-                onChange={(e) => handleChange('dueDate', e.target.value)}
+onChange={(e) => handleChange('due_date_c', e.target.value)}
               />
               {errors.dueDate && <p className="text-sm text-error mt-1">{errors.dueDate}</p>}
             </div>
@@ -214,7 +214,7 @@ const AddTaskModal = ({ isOpen, onClose, onSave, task = null }) => {
               <select
                 id="priority"
                 value={formData.priority}
-                onChange={(e) => handleChange('priority', e.target.value)}
+onChange={(e) => handleChange('priority_c', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
                 <option value="low">Low</option>

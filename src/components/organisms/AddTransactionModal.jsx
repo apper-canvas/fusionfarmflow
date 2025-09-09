@@ -8,12 +8,12 @@ import { format } from 'date-fns'
 
 const AddTransactionModal = ({ isOpen, onClose, onSave, transaction = null }) => {
   const [formData, setFormData] = useState({
-    farmId: '',
-    type: 'expense',
-    category: '',
-    amount: '',
-    description: '',
-    date: format(new Date(), 'yyyy-MM-dd')
+farm_id_c: '',
+    type_c: 'expense',
+    category_c: '',
+    amount_c: '',
+    description_c: '',
+    date_c: format(new Date(), 'yyyy-MM-dd')
   })
   const [farms, setFarms] = useState([])
   const [errors, setErrors] = useState({})
@@ -50,12 +50,12 @@ const AddTransactionModal = ({ isOpen, onClose, onSave, transaction = null }) =>
   useEffect(() => {
     if (transaction) {
       setFormData({
-        farmId: transaction.farmId,
-        type: transaction.type,
-        category: transaction.category,
-        amount: Math.abs(transaction.amount).toString(),
-        description: transaction.description,
-        date: format(new Date(transaction.date), 'yyyy-MM-dd')
+farm_id_c: transaction.farm_id_c,
+        type_c: transaction.type_c,
+        category_c: transaction.category_c,
+        amount_c: Math.abs(transaction.amount_c).toString(),
+        description_c: transaction.description_c,
+        date_c: format(new Date(transaction.date_c), 'yyyy-MM-dd')
       })
     } else {
       setFormData({
@@ -104,9 +104,9 @@ const AddTransactionModal = ({ isOpen, onClose, onSave, transaction = null }) =>
     try {
       const transactionData = {
         ...formData,
-        farmId: parseInt(formData.farmId),
-        amount: formData.type === 'income' ? parseFloat(formData.amount) : -parseFloat(formData.amount),
-        date: new Date(formData.date).toISOString()
+farm_id_c: parseInt(formData.farm_id_c),
+        amount_c: formData.type_c === 'income' ? parseFloat(formData.amount_c) : -parseFloat(formData.amount_c),
+        date_c: formData.date_c
       }
       await onSave(transactionData)
       onClose()
@@ -160,8 +160,8 @@ const AddTransactionModal = ({ isOpen, onClose, onSave, transaction = null }) =>
               className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               <option value="">Select a farm</option>
-              {farms.map(farm => (
-                <option key={farm.Id} value={farm.Id}>{farm.name}</option>
+{farms.map(farm => (
+                <option key={farm.Id} value={farm.Id}>{farm.name_c}</option>
               ))}
             </select>
             {errors.farmId && <p className="text-sm text-error mt-1">{errors.farmId}</p>}
@@ -172,7 +172,7 @@ const AddTransactionModal = ({ isOpen, onClose, onSave, transaction = null }) =>
               <Label htmlFor="type">Type *</Label>
               <select
                 id="type"
-                value={formData.type}
+value={formData.type_c}
                 onChange={(e) => handleChange('type', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
@@ -184,7 +184,7 @@ const AddTransactionModal = ({ isOpen, onClose, onSave, transaction = null }) =>
               <Label htmlFor="category">Category *</Label>
               <select
                 id="category"
-                value={formData.category}
+value={formData.category_c}
                 onChange={(e) => handleChange('category', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
@@ -206,7 +206,7 @@ const AddTransactionModal = ({ isOpen, onClose, onSave, transaction = null }) =>
                   id="amount"
                   type="number"
                   step="0.01"
-                  value={formData.amount}
+value={formData.amount_c}
                   onChange={(e) => handleChange('amount', e.target.value)}
                   placeholder="0.00"
                   className="pl-8"
@@ -219,7 +219,7 @@ const AddTransactionModal = ({ isOpen, onClose, onSave, transaction = null }) =>
               <Input
                 id="date"
                 type="date"
-                value={formData.date}
+value={formData.date_c}
                 onChange={(e) => handleChange('date', e.target.value)}
               />
               {errors.date && <p className="text-sm text-error mt-1">{errors.date}</p>}
@@ -230,7 +230,7 @@ const AddTransactionModal = ({ isOpen, onClose, onSave, transaction = null }) =>
             <Label htmlFor="description">Description *</Label>
             <Input
               id="description"
-              value={formData.description}
+value={formData.description_c}
               onChange={(e) => handleChange('description', e.target.value)}
               placeholder="Brief description of the transaction"
             />

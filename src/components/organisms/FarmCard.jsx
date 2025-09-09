@@ -16,20 +16,20 @@ const FarmCard = ({ farm, onEdit, onDelete }) => {
             <ApperIcon name="MapPin" size={24} className="text-white" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">{farm.name}</h3>
+<h3 className="text-lg font-semibold text-gray-900">{farm.name_c}</h3>
             <p className="text-sm text-gray-600 flex items-center">
               <ApperIcon name="Map" size={14} className="mr-1" />
-              {farm.location}
+{farm.location_c}
             </p>
           </div>
         </div>
-        <Badge variant="primary">{formatSize(farm.size, farm.unit)}</Badge>
+<Badge variant="primary">{formatSize(farm.size_c, farm.unit_c)}</Badge>
       </div>
       
       <div className="space-y-2 mb-6">
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-600">Created</span>
-          <span className="font-medium">{formatDate(farm.createdAt)}</span>
+<span className="font-medium">{formatDate(farm.created_at_c || farm.CreatedOn)}</span>
         </div>
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-600">Status</span>
