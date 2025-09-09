@@ -86,13 +86,13 @@ const Crops = () => {
   }
 
   const filteredCrops = crops
-    .filter(crop => {
+.filter(crop => {
       const matchesSearch = 
-        crop.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        crop.variety.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        getFarmName(crop.farmId).toLowerCase().includes(searchTerm.toLowerCase())
+        (crop.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (crop.variety || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (getFarmName(crop.farmId) || '').toLowerCase().includes(searchTerm.toLowerCase())
       
-      const matchesStatus = statusFilter === 'all' || crop.status.toLowerCase() === statusFilter
+      const matchesStatus = statusFilter === 'all' || (crop.status || '').toLowerCase() === statusFilter
       
       return matchesSearch && matchesStatus
     })
@@ -157,7 +157,7 @@ const Crops = () => {
             <CropCard
               key={crop.Id}
               crop={crop}
-              farmName={getFarmName(crop.farmId)}
+farmName={getFarmName(crop.farmId) || 'Unknown Farm'}
               onEdit={handleEditCrop}
               onDelete={handleDeleteCrop}
             />
