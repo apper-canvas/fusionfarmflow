@@ -29,11 +29,11 @@ const [formData, setFormData] = useState({
     }
   }, [isOpen])
 
-  useEffect(() => {
+useEffect(() => {
     if (task) {
 setFormData({
-        farm_id_c: task.farm_id_c,
-        crop_id_c: task.crop_id_c,
+        farm_id_c: task.farm_id_c?.Id || task.farm_id_c,
+        crop_id_c: task.crop_id_c?.Id || task.crop_id_c,
         title_c: task.title_c,
         description_c: task.description_c || '',
         due_date_c: format(new Date(task.due_date_c), 'yyyy-MM-dd'),
