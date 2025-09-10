@@ -8,6 +8,7 @@ import Dashboard from '@/components/pages/Dashboard'
 import Farms from '@/components/pages/Farms'
 import Crops from '@/components/pages/Crops'
 import Tasks from '@/components/pages/Tasks'
+import Equipments from '@/components/pages/Equipments'
 import Finances from '@/components/pages/Finances'
 import Weather from '@/components/pages/Weather'
 import Login from '@/components/pages/Login'
@@ -119,11 +120,12 @@ function AppContent() {
           <Route path="/error" element={<ErrorPage />} />
           <Route path="/prompt-password/:appId/:emailAddress/:provider" element={<PromptPassword />} />
           <Route path="/reset-password/:appId/:fields" element={<ResetPassword />} />
-          <Route path="/" element={<Layout />}>
+<Route path="/" element={<Layout />}>
             <Route index element={<Dashboard />} />
             <Route path="farms" element={<Farms />} />
             <Route path="crops" element={<Crops />} />
             <Route path="tasks" element={<Tasks />} />
+            <Route path="equipments" element={<Equipments />} />
             <Route path="finances" element={<Finances />} />
             <Route path="weather" element={<Weather />} />
           </Route>
