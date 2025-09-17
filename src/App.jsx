@@ -12,6 +12,7 @@ import Farmers from '@/components/pages/Farmers'
 import Equipments from '@/components/pages/Equipments'
 import Finances from '@/components/pages/Finances'
 import Weather from '@/components/pages/Weather'
+import SalesOrders from '@/components/pages/SalesOrders'
 import Login from '@/components/pages/Login'
 import Signup from '@/components/pages/Signup'
 import Callback from '@/components/pages/Callback'
@@ -129,6 +130,7 @@ function AppContent() {
             <Route path="tasks" element={<Tasks />} />
             <Route path="equipments" element={<Equipments />} />
             <Route path="finances" element={<Finances />} />
+            <Route path="sales-orders" element={<SalesOrders />} />
             <Route path="weather" element={<Weather />} />
           </Route>
         </Routes>

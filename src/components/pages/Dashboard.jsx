@@ -11,21 +11,21 @@ import farmService from '@/services/api/farmService'
 import cropService from '@/services/api/cropService'
 import taskService from '@/services/api/taskService'
 import transactionService from '@/services/api/transactionService'
+import salesOrderService from '@/services/api/salesOrderService'
 import { format, isThisWeek, isPast } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
-
 const Dashboard = () => {
   const [data, setData] = useState({
     farms: [],
     crops: [],
     tasks: [],
-    transactions: []
+    transactions: [],
+    salesOrders: []
   })
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const navigate = useNavigate()
-
-  useEffect(() => {
+useEffect(() => {
     loadDashboardData()
   }, [])
 
@@ -33,13 +33,14 @@ const Dashboard = () => {
     try {
       setLoading(true)
       setError('')
-      const [farms, crops, tasks, transactions] = await Promise.all([
+      const [farms, crops, tasks, transactions, salesOrders] = await Promise.all([
         farmService.getAll(),
         cropService.getAll(),
         taskService.getAll(),
-        transactionService.getAll()
+        transactionService.getAll(),
+        salesOrderService.getAll()
       ])
-      setData({ farms, crops, tasks, transactions })
+      setData({ farms, crops, tasks, transactions, salesOrders })
     } catch (err) {
       setError('Failed to load dashboard data')
     } finally {
@@ -71,9 +72,14 @@ const recentTransactions = data.transactions
 
   const netProfit = totalIncome - totalExpenses
 
+  // Sales Order calculations
+  const totalSalesValue = data.salesOrders.reduce((sum, order) => sum + (order.total_amount_c || 0), 0)
+  const recentSalesOrders = data.salesOrders
+    .sort((a, b) => new Date(b.order_date_c || 0) - new Date(a.order_date_c || 0))
+    .slice(0, 5)
+
 const activeCrops = data.crops.filter(crop => ['planted', 'growing'].includes((crop.status ?? '').toLowerCase()))
   const readyCrops = data.crops.filter(crop => (crop.status ?? '').toLowerCase() === 'ready')
-
   const getFarmName = (farmId) => {
     const farm = data.farms.find(f => f.Id === farmId)
     return farm ? farm.name : 'Unknown Farm'
@@ -100,7 +106,7 @@ switch ((priority ?? '').toLowerCase()) {
     }).format(amount)
   }
 
-  return (
+return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
@@ -113,6 +119,10 @@ switch ((priority ?? '').toLowerCase()) {
             <ApperIcon name="CheckSquare" size={16} className="mr-2" />
             View Tasks
           </Button>
+          <Button variant="outline" onClick={() => navigate('/sales-orders')}>
+            <ApperIcon name="ShoppingCart" size={16} className="mr-2" />
+            Sales Orders
+          </Button>
           <Button variant="primary" onClick={() => navigate('/farms')}>
             <ApperIcon name="Plus" size={16} className="mr-2" />
             Add Farm
@@ -120,8 +130,8 @@ switch ((priority ?? '').toLowerCase()) {
         </div>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+{/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
         <StatCard
           title="Total Farms"
           value={data.farms.length}
@@ -141,6 +151,13 @@ switch ((priority ?? '').toLowerCase()) {
           icon="CheckSquare"
           trend={overdueTasks.length > 0 ? "down" : undefined}
           trendValue={overdueTasks.length > 0 ? `${overdueTasks.length} overdue` : undefined}
+        />
+        <StatCard
+          title="Sales Orders"
+          value={data.salesOrders.length}
+          icon="ShoppingCart"
+          trend={data.salesOrders.length > 0 ? "up" : undefined}
+          trendValue={data.salesOrders.length > 0 ? formatCurrency(totalSalesValue) : undefined}
         />
         <StatCard
           title="Net Profit"
@@ -207,8 +224,53 @@ switch ((priority ?? '').toLowerCase()) {
           <WeatherWidget compact={false} />
         </div>
       </div>
+<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Recent Sales Orders */}
+        <Card>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-semibold text-gray-900">Recent Sales Orders</h2>
+            <Button variant="outline" size="sm" onClick={() => navigate('/sales-orders')}>
+              View All
+            </Button>
+          </div>
+          {recentSalesOrders.length > 0 ? (
+            <div className="space-y-3">
+              {recentSalesOrders.map((order) => (
+                <div key={order.Id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 rounded-lg bg-gradient-to-br from-primary to-primary-600">
+                      <ApperIcon name="ShoppingCart" size={16} className="text-white" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-900">{order.customer_name_c || 'Unknown Customer'}</p>
+                      <p className="text-sm text-gray-600">{order.Name || 'Untitled Order'}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-semibold text-success">{formatCurrency(order.total_amount_c)}</p>
+                    <p className="text-sm text-gray-600">
+                      {order.order_date_c ? format(new Date(order.order_date_c), 'MMM dd') : 'No date'}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <ApperIcon name="ShoppingCart" size={48} className="mx-auto text-gray-400 mb-4" />
+              <p className="text-gray-600">No sales orders yet</p>
+              <Button
+                variant="outline"
+                size="sm"
+                className="mt-3"
+                onClick={() => navigate('/sales-orders')}
+              >
+                Create First Order
+              </Button>
+            </div>
+          )}
+        </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Transactions */}
         <Card>
           <div className="flex items-center justify-between mb-6">

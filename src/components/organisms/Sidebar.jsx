@@ -10,6 +10,7 @@ const navItems = [
     { path: '/tasks', label: 'Tasks', icon: 'CheckSquare' },
     { path: '/equipments', label: 'Equipments', icon: 'Wrench' },
     { path: '/finances', label: 'Finances', icon: 'DollarSign' },
+    { path: '/sales-orders', label: 'Sales Orders', icon: 'ShoppingCart' },
     { path: '/weather', label: 'Weather', icon: 'Cloud' }
   ]
 
